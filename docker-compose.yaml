@@ -1,0 +1,53 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    env_file:
+      - ./env/influxdb.env
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    dns:
+      - 1.1.1.1
+
+  weather-endpoint:
+    build: .
+    container_name: weather-endpoint
+    environment:
+      MQTT_HOST: "192.168.88.10"
+      MQTT_PORT: "1883"
+      MQTT_TOPIC: "meteo/tuku"
+    depends_on:
+      - influxdb
+    ports:
+      - "8888:8888"
+    env_file:
+      - ./env/weather-endpoint.env
+    restart: always
+    dns:
+      - 1.1.1.1
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    environment:
+      # Acceso anónimo permitido
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Viewer"
+
+      # Mantener pantalla de login (para poder editar dashboards)
+      GF_AUTH_DISABLE_LOGIN_FORM: "false"
+
+      # No permitir registro de usuarios
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    dns:
+      - 1.1.1.1
+
+volumes:
+  influxdb_data:
+  grafana_data:

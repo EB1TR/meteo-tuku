@@ -1,0 +1,52 @@
+# Variables de entorno y secretos (se permiten plantillas de ejemplo).
+env/
+.env
+.env.*
+*.env
+!*.env.example
+!*.env.sample
+!.env.example
+!.env.sample
+secrets/
+credentials/
+*.pem
+*.key
+
+# Entornos virtuales de Python.
+.venv/
+venv/
+virtualenv/
+
+# Cachés, compilación y paquetes de Python.
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Cobertura y resultados de pruebas.
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Datos persistentes locales y registros.
+influxdb_data/
+grafana_data/
+*.log
+*.pid
+
+# Editores y sistema operativo.
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
